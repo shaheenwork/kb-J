@@ -8,10 +8,14 @@
         <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/drawable/rectangle.xml" value="0.246" />
         <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/drawable/round_corner.xml" value="0.1" />
         <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/activity_imag_list.xml" value="0.3546875" />
-        <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/item_image.xml" value="0.3546875" />
         <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/name_dialog.xml" value="0.1891025641025641" />
         <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/number_dialog.xml" value="0.3390625" />
+        <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/layout/toolbar.xml" value="0.3390625" />
+        <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/menu/menu.xml" value="0.3380208333333333" />
+        <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/menu/menu_more.xml" value="0.3390625" />
+        <entry key="..\:/Shaheen/Other Files/J/app/src/main/res/menu/popup_menu.xml" value="0.3390625" />
       </map>
     </option>
   </component>

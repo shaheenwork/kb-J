@@ -2,8 +2,13 @@ package com.example.j
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
@@ -12,45 +17,80 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.View.OnTouchListener
-import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.gms.ads.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
 
-class MainActivity : AppCompatActivity() {
+class JerseyEditActivity : AppCompatActivity() {
     private lateinit var nameTextView: TextView
     private lateinit var numberTextView: TextView
-    private lateinit var name_margin:View
-    private lateinit var number_margin:View
+    private lateinit var name_margin: View
+    private lateinit var number_margin: View
+    private lateinit var moveFAB: FloatingActionButton
 
-    private lateinit var imageView:ImageView
-
+    private lateinit var imageView: ImageView
 
     private var x_name = 0;
     private var x_num = 0;
     private var y_name = 0;
     private var y_num = 0;
     private var movable = false
+    lateinit var root: ConstraintLayout
 
     private var item: ImageModel? = null
+    private lateinit var backBTN:ImageView
+    private lateinit var saveBTN:ImageView
+    private lateinit var shareBTN:ImageView
+    final var TAG = "MainActivity"
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val root: ConstraintLayout = findViewById(R.id.root)
+
+
+        val mAdView2:AdView = findViewById(R.id.adview)
+        val adRequest2:AdRequest = AdRequest.Builder().build()
+        mAdView2.loadAd(adRequest2)
+
+
+        root = findViewById(R.id.root)
         nameTextView = findViewById(R.id.nameTextView)
         numberTextView = findViewById(R.id.numberTextView)
+        saveBTN = findViewById(R.id.save)
+        shareBTN = findViewById(R.id.share)
+        backBTN = findViewById(R.id.back)
+        moveFAB = findViewById(R.id.move_fab)
+
+
+
+        backBTN.setOnClickListener{
+            super.onBackPressed()
+        }
+
+        saveBTN.setOnClickListener{
+
+
+
+
+        }
+
+        shareBTN.setOnClickListener{
+            generateImage(root,true)
+        }
+
 
         name_margin = findViewById(R.id.v1)
         number_margin = findViewById(R.id.v2)
@@ -63,7 +103,6 @@ class MainActivity : AppCompatActivity() {
 
 
         imageView.setImageResource(item!!.image_id)
-
 
 
         val lp = name_margin.layoutParams as ConstraintLayout.LayoutParams
@@ -83,8 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        val buttonsave: Button = findViewById(R.id.buttonSave)
-        val buttonMove: Button = findViewById(R.id.buttonMove)
+       /* val buttonsave: Button = findViewById(R.id.buttonSave)
 
         buttonsave.setOnClickListener {
 
@@ -92,18 +130,28 @@ class MainActivity : AppCompatActivity() {
             numberTextView.setBackgroundResource(R.drawable.no_rectangle)
             generateImage(root)
 
-        }
+        }*/
 
-        buttonMove.setOnClickListener {
+        moveFAB.setOnClickListener {
             movable = !movable
             movable()
         }
 
 
+
+
+
+
+
+
+
     }
 
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun movable() {
         if (movable) {
+            moveFAB.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.grey));
             nameTextView.setBackgroundResource(R.drawable.rectangle)
             numberTextView.setBackgroundResource(R.drawable.rectangle)
 
@@ -148,6 +196,7 @@ class MainActivity : AppCompatActivity() {
 
         } else {
 
+            moveFAB.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.fab));
             nameTextView.setBackgroundResource(R.drawable.no_rectangle)
             numberTextView.setBackgroundResource(R.drawable.no_rectangle)
 
@@ -157,14 +206,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun generateImage(root: ConstraintLayout) {
+    private fun generateImage(root: ConstraintLayout,share:Boolean) {
         val vto: ViewTreeObserver = root.viewTreeObserver
         /*vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 root.viewTreeObserver.removeGlobalOnLayoutListener(this)*/
         val bitmap = getScreenShotFromView(root)
         if (bitmap != null) {
-            saveMediaToStorage(bitmap)
+            saveMediaToStorage(bitmap,share)
         }
         /*   }
        })*/
@@ -189,6 +238,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 nameTextView.text = name.text
             }
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
             builder.dismiss()
         }
         builder.setCanceledOnTouchOutside(false)
@@ -208,13 +259,48 @@ class MainActivity : AppCompatActivity() {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
         builder.setView(view)
         button.setOnClickListener {
-            numberTextView.text = number.text
+
+            if (number.text.isEmpty()){
+                numberTextView.text = "12"
+            }
+            else{
+                numberTextView.text = number.text
+            }
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
             builder.dismiss()
         }
         builder.setCanceledOnTouchOutside(false)
         builder.window?.setBackgroundDrawableResource(android.R.color.transparent)
         builder.show()
 
+    }
+
+    fun share_bitMap_to_Apps(bitmap: Bitmap) {
+        val i = Intent(Intent.ACTION_SEND)
+        i.type = "image/*"
+        i.putExtra(
+            Intent.EXTRA_STREAM,
+            getImageUri(this@JerseyEditActivity, bitmap)
+        )
+            i.putExtra(Intent.EXTRA_TEXT, "app url");
+        try {
+            startActivity(Intent.createChooser(i, "Share"))
+        } catch (ex: ActivityNotFoundException) {
+            ex.printStackTrace()
+        }
+    }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            inContext.getContentResolver(),
+            inImage,
+            "KBFC",
+            "null"
+        )
+        return Uri.parse(path)
     }
 
 
@@ -237,7 +323,7 @@ class MainActivity : AppCompatActivity() {
 
 
     // this method saves the image to gallery
-    private fun saveMediaToStorage(bitmap: Bitmap) {
+    private fun saveMediaToStorage(bitmap: Bitmap, share: Boolean) {
         // Generating a file name
         val filename = "${System.currentTimeMillis()}.jpg"
 
@@ -277,7 +363,15 @@ class MainActivity : AppCompatActivity() {
         fos?.use {
             // Finally writing the bitmap to the output stream that we opened
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            Toast.makeText(this, "Captured View and saved to Gallery", Toast.LENGTH_SHORT).show()
+            if (!share) {
+                Toast.makeText(this, "Captured View and saved to Gallery", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
+
+        if (share){
+            share_bitMap_to_Apps(bitmap)
+        }
+
     }
 }

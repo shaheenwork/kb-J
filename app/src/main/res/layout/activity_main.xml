@@ -5,18 +5,75 @@
     android:layout_width="match_parent"
     android:id="@+id/root"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".JerseyEditActivity">
+
+    <Toolbar android:id="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:background="@color/design_default_color_primary_dark"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+
+            <ImageView
+                android:id="@+id/back"
+                android:paddingEnd="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back"
+                />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="ActionBar Title"/>
+
+            <ImageView
+                android:id="@+id/share"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_share"
+                />
+
+            <ImageView
+                android:id="@+id/save"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_save"
+                />
+
+
+
+
+        </LinearLayout>
+
+    </Toolbar>
+
 
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="500dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent=".8"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/s"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/adview"
          />
 
 
@@ -24,7 +81,7 @@
         android:id="@+id/v1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintHeight_percent=".26"
         />
 
@@ -32,7 +89,7 @@
         android:id="@+id/v2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintHeight_percent=".472"
         />
 
@@ -61,27 +118,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v2" />
 
-    <Button
-        android:id="@+id/buttonSave"
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/move_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SAve"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        app:fabSize="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_editor_absoluteX="152dp" />
-    <Button
-        android:id="@+id/buttonMove"
+       app:layout_constraintBottom_toTopOf="@id/adview"
+        app:srcCompat="@drawable/ic_move" />
+
+
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Move"
-        android:layout_marginStart="35dp"
-        app:layout_constraintStart_toStartOf="@id/buttonSave"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:layout_editor_absoluteX="152dp" />
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintBottom_toBottomOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
