@@ -1,4 +1,4 @@
-package com.example.j
+package com.shaheen.kbj
 
 
 import android.content.ActivityNotFoundException
@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.initialization.InitializationStatus
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener
 import java.util.*
 
 
@@ -38,16 +41,21 @@ class ImageListActivity : AppCompatActivity() {
 
 
 
+        MobileAds.initialize(this, object : OnInitializationCompleteListener {
+            override fun onInitializationComplete(initializationStatus: InitializationStatus) {
+                Toast.makeText(this@ImageListActivity, " successful ", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
         setContentView(R.layout.activity_imag_list)
 
 
-
-        val mAdView = findViewById<View>(R.id.adview) as AdView
+        val mAdView: AdView
+        mAdView = findViewById(R.id.adview)
         val adRequest = AdRequest.Builder()
-          //  .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+           // .addTestDevice("88A9F41C6209D931B6D653F49DD6C96A")
             .build()
-
-        // Start loading the ad in the background.
         mAdView.loadAd(adRequest)
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar

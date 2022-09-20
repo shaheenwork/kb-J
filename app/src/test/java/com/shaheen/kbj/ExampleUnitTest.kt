@@ -1,4 +1,4 @@
-package com.example.j
+package com.shaheen.kbj
 
 import org.junit.Test
 

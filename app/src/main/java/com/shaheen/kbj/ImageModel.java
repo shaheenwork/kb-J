@@ -1,4 +1,4 @@
-package com.example.j;
+package com.shaheen.kbj;
 
 import android.os.Parcel;
 import android.os.Parcelable;

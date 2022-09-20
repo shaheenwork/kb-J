@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.j">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    package="com.shaheen.kbj">
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".AppClass"
-        android:roundIcon="@mipmap/ic_launcher_round"
+         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.J"
         tools:targetApi="31">
@@ -22,11 +21,11 @@
             android:value="ca-app-pub-2416033626083993~9409600208" />
 
         <activity
-            android:name=".ImageListActivity"
+            android:name="com.shaheen.kbj.ImageListActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".JerseyEditActivity" />
+                android:value="com.shaheen.kbj.JerseyEditActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,11 +33,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".JerseyEditActivity"
+            android:name="com.shaheen.kbj.JerseyEditActivity"
             android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".JerseyEditActivity" />
+                android:value="com.shaheen.kbj.JerseyEditActivity" />
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.j
+package com.shaheen.kbj
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

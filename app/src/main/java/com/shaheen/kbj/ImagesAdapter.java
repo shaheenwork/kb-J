@@ -1,4 +1,4 @@
-package com.example.j;
+package com.shaheen.kbj;
 
 import android.content.Context;
 import android.content.Intent;
