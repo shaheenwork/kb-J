@@ -1,4 +1,4 @@
-package com.shaheen.kbj;
+package com.shaheen.kbj.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.widget.ImageView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.shaheen.kbj.activity.JerseyEditActivity;
+import com.shaheen.kbj.R;
+import com.shaheen.kbj.model.ImageModel;
 
 import java.util.ArrayList;
 

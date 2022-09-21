@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/root"
     android:layout_height="match_parent"
-    tools:context=".JerseyEditActivity">
+    tools:context=".activity.JerseyEditActivity">
 
     <Toolbar android:id="@+id/toolbar"
         app:layout_constraintTop_toTopOf="parent"
