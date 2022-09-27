@@ -16,6 +16,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
+
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -48,4 +52,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
+
+    implementation 'com.github.wooplr:Spotlight:1.2.3'
 }

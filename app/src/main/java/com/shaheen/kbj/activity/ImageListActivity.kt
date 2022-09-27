@@ -57,10 +57,10 @@ class ImageListActivity : AppCompatActivity() {
     private fun dummyData(arrayList: ArrayList<ImageModel>) {
         arrayList.add(
             ImageModel(
-                R.drawable.s,
-                "ladder",
-                0.4f,
-                0f,
+                R.drawable.im1,
+                "im1",
+                .5f,
+                0.5f,
                 0f,
                 0f,
                 0

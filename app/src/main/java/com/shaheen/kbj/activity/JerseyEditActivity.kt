@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
@@ -17,7 +18,8 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.view.*
+import android.view.MotionEvent
+import android.view.View
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -28,13 +30,18 @@ import androidx.core.app.ActivityCompat
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetSequence
 import com.getkeepsafe.taptargetview.TapTargetView
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.shaheen.kbj.R
 import com.shaheen.kbj.Utils.PermissionHelper
 import com.shaheen.kbj.model.ImageModel
+import com.wooplr.spotlight.SpotlightConfig
+import com.wooplr.spotlight.utils.SpotlightSequence
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -107,234 +114,11 @@ class JerseyEditActivity : AppCompatActivity() {
         lp.matchConstraintPercentHeight = item!!.top_percent
         name_margin.layoutParams = lp
 
-
-        showCaseName()
+        val lp2 = number_margin.layoutParams as ConstraintLayout.LayoutParams
+        lp.matchConstraintPercentHeight = item!!.bottom_percent
+        number_margin.layoutParams = lp2
 
     }
-
-    private fun showCaseName() {
-        val sequence = TapTargetSequence(this)
-            .targets( // This tap target will target the back button, we just need to pass its containing toolbar
-                TapTarget.forView(nameTextView, "Tap to change name")
-                    .dimColor(R.color.colorPrimaryDark)
-                    .outerCircleColor(R.color.colorPrimary)
-                    .targetCircleColor(R.color.white)
-                    .transparentTarget(true)
-                    .textColor(R.color.white)
-                    .id(1),  // Likewise, this tap target will target the search button
-
-                TapTarget.forView(
-                    numberTextView,
-                    "Tap to change number",
-                )
-                    .dimColor(R.color.colorPrimaryDark)
-                    .outerCircleColor(R.color.colorPrimary)
-                    .targetCircleColor(R.color.white)
-                    .transparentTarget(true)
-                    .textColor(R.color.white)
-                    .id(2),  // You can also target the overflow button in your toolbar
-                TapTarget.forView(
-                    moveFAB,
-                    "Tap to reposition name or number",
-                    "Use it if you are not satisfied with the name or number position"
-                )
-                    .dimColor(R.color.colorPrimaryDark)
-                    .outerCircleColor(R.color.colorPrimary)
-                    .targetCircleColor(R.color.white)
-                    .transparentTarget(true)
-                    .textColor(R.color.white)
-                    .id(3),  // This tap target will target our droid buddy at the given target rect
-                TapTarget.forView(
-                    saveBTN,
-                    "Save your jersey",
-                )
-                    .dimColor(R.color.colorPrimaryDark)
-                    .outerCircleColor(R.color.colorPrimary)
-                    .targetCircleColor(R.color.white)
-                    .transparentTarget(true)
-                    .textColor(R.color.white)
-                    .id(4),
-                TapTarget.forView(
-                    shareBTN,
-                    "Share your jersey",
-
-                )
-                    .dimColor(R.color.colorPrimaryDark)
-                    .outerCircleColor(R.color.colorPrimary)
-                    .targetCircleColor(R.color.white)
-                    .transparentTarget(true)
-                    .textColor(R.color.white)
-                    .id(3),  // This tap target will target our droid buddy at the given target rect
-
-            )
-
-            .listener(object : TapTargetSequence.Listener {
-                // This listener will tell us when interesting(tm) events happen in regards
-                // to the sequence
-                override fun onSequenceFinish() {
-                   /* (findViewById<View>(R.id.educated) as TextView).text =
-                        "Congratulations! You're educated now!"*/
-                }
-
-                override fun onSequenceStep(lastTarget: TapTarget, targetClicked: Boolean) {
-                    Log.d("TapTargetView", "Clicked on " + lastTarget.id())
-                }
-
-                override fun onSequenceCanceled(lastTarget: TapTarget) {
-                    val dialog = AlertDialog.Builder(this@JerseyEditActivity)
-                        .setTitle("Uh oh")
-                        .setMessage("You canceled the sequence")
-                        .setPositiveButton("Oops", null).show()
-                    TapTargetView.showFor(dialog,
-                        TapTarget.forView(
-                            dialog.getButton(DialogInterface.BUTTON_POSITIVE),
-                            "Uh oh!",
-                            "You canceled the sequence at step " + lastTarget.id()
-                        )
-                            .cancelable(false)
-                            .tintTarget(false), object : TapTargetView.Listener() {
-                            override fun onTargetClick(view: TapTargetView) {
-                                super.onTargetClick(view)
-                                dialog.dismiss()
-                            }
-                        })
-                }
-            })
-
-        sequence.start()
-    }
-
-    private fun showCaseNumber() {
-        TapTargetView.showFor(
-            this,  // `this` is an Activity
-            TapTarget.forView(
-                numberTextView, "Tap to change number", ""
-            ) // All options below are optional
-                .outerCircleColor(R.color.colorPrimary) // Specify a color for the outer circle
-                .outerCircleAlpha(0.4f) // Specify the alpha amount for the outer circle
-                .targetCircleColor(R.color.white) // Specify a color for the target circle
-                .titleTextSize(20) // Specify the size (in sp) of the title text
-                .titleTextColor(R.color.white) // Specify the color of the title text
-                .descriptionTextSize(10) // Specify the size (in sp) of the description text
-                .descriptionTextColor(R.color.white) // Specify the color of the description text
-                // .textColor(R.color.fab) // Specify a color for both the title and description text
-                .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
-                .dimColor(R.color.black) // If set, will dim behind the view with 30% opacity of the given color
-                .drawShadow(true) // Whether to draw a drop shadow or not
-                .cancelable(false) // Whether tapping outside the outer circle dismisses the view
-                .tintTarget(true) // Whether to tint the target view's color
-                .transparentTarget(false) // Specify whether the target is transparent (displays the content underneath)
-                // .icon(Drawable) // Specify a custom drawable to draw as the target
-                .targetRadius(60)
-        )  // Specify the target radius (in dp)
-        object : TapTargetView.Listener() {
-            // The listener can listen for regular clicks, long clicks or cancels
-            override fun onTargetClick(view: TapTargetView) {
-                super.onTargetClick(view) // This call is optional
-                showCaseMove()
-            }
-        }
-    }
-
-    private fun showCaseMove() {
-        TapTargetView.showFor(
-            this,  // `this` is an Activity
-            TapTarget.forView(
-                moveFAB, "Tap to change position of name and number", ""
-            ) // All options below are optional
-                .outerCircleColor(R.color.colorPrimary) // Specify a color for the outer circle
-                .outerCircleAlpha(0.4f) // Specify the alpha amount for the outer circle
-                .targetCircleColor(R.color.white) // Specify a color for the target circle
-                .titleTextSize(20) // Specify the size (in sp) of the title text
-                .titleTextColor(R.color.white) // Specify the color of the title text
-                .descriptionTextSize(10) // Specify the size (in sp) of the description text
-                .descriptionTextColor(R.color.white) // Specify the color of the description text
-                // .textColor(R.color.fab) // Specify a color for both the title and description text
-                .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
-                .dimColor(R.color.black) // If set, will dim behind the view with 30% opacity of the given color
-                .drawShadow(true) // Whether to draw a drop shadow or not
-                .cancelable(false) // Whether tapping outside the outer circle dismisses the view
-                .tintTarget(true) // Whether to tint the target view's color
-                .transparentTarget(false) // Specify whether the target is transparent (displays the content underneath)
-                // .icon(Drawable) // Specify a custom drawable to draw as the target
-                .targetRadius(60)
-        )  // Specify the target radius (in dp)
-        object : TapTargetView.Listener() {
-            // The listener can listen for regular clicks, long clicks or cancels
-            override fun onTargetClick(view: TapTargetView) {
-                super.onTargetClick(view) // This call is optional
-                showCaseSave()
-            }
-        }
-    }
-
-
-    private fun showCaseSave() {
-        TapTargetView.showFor(
-            this,  // `this` is an Activity
-            TapTarget.forView(
-                saveBTN, "Save created jersey", ""
-            ) // All options below are optional
-                .outerCircleColor(R.color.colorPrimary) // Specify a color for the outer circle
-                .outerCircleAlpha(0.4f) // Specify the alpha amount for the outer circle
-                .targetCircleColor(R.color.white) // Specify a color for the target circle
-                .titleTextSize(20) // Specify the size (in sp) of the title text
-                .titleTextColor(R.color.white) // Specify the color of the title text
-                .descriptionTextSize(10) // Specify the size (in sp) of the description text
-                .descriptionTextColor(R.color.white) // Specify the color of the description text
-                // .textColor(R.color.fab) // Specify a color for both the title and description text
-                .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
-                .dimColor(R.color.black) // If set, will dim behind the view with 30% opacity of the given color
-                .drawShadow(true) // Whether to draw a drop shadow or not
-                .cancelable(false) // Whether tapping outside the outer circle dismisses the view
-                .tintTarget(true) // Whether to tint the target view's color
-                .transparentTarget(false) // Specify whether the target is transparent (displays the content underneath)
-                // .icon(Drawable) // Specify a custom drawable to draw as the target
-                .targetRadius(60)
-        )  // Specify the target radius (in dp)
-        object : TapTargetView.Listener() {
-            // The listener can listen for regular clicks, long clicks or cancels
-            override fun onTargetClick(view: TapTargetView) {
-                super.onTargetClick(view) // This call is optional
-                showCaseShare()
-            }
-        }
-    }
-
-
-    private fun showCaseShare() {
-        TapTargetView.showFor(
-            this,  // `this` is an Activity
-            TapTarget.forView(
-                shareBTN, "Share created jersey", ""
-            ) // All options below are optional
-                .outerCircleColor(R.color.colorPrimary) // Specify a color for the outer circle
-                .outerCircleAlpha(0.4f) // Specify the alpha amount for the outer circle
-                .targetCircleColor(R.color.white) // Specify a color for the target circle
-                .titleTextSize(20) // Specify the size (in sp) of the title text
-                .titleTextColor(R.color.white) // Specify the color of the title text
-                .descriptionTextSize(10) // Specify the size (in sp) of the description text
-                .descriptionTextColor(R.color.white) // Specify the color of the description text
-                // .textColor(R.color.fab) // Specify a color for both the title and description text
-                .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
-                .dimColor(R.color.black) // If set, will dim behind the view with 30% opacity of the given color
-                .drawShadow(true) // Whether to draw a drop shadow or not
-                .cancelable(false) // Whether tapping outside the outer circle dismisses the view
-                .tintTarget(true) // Whether to tint the target view's color
-                .transparentTarget(false) // Specify whether the target is transparent (displays the content underneath)
-                // .icon(Drawable) // Specify a custom drawable to draw as the target
-                .targetRadius(60)
-        )  // Specify the target radius (in dp)
-        object : TapTargetView.Listener() {
-            // The listener can listen for regular clicks, long clicks or cancels
-            override fun onTargetClick(view: TapTargetView) {
-                super.onTargetClick(view) // This call is optional
-            }
-        }
-    }
-
-
-
 
 
     private fun onClicks() {
@@ -415,6 +199,8 @@ class JerseyEditActivity : AppCompatActivity() {
                 Log.d(TAG, "Ad dismissed fullscreen content.")
                 mInterstitialAd = null
 
+                showSpotlight()
+
 
             }
 
@@ -429,6 +215,20 @@ class JerseyEditActivity : AppCompatActivity() {
                 Log.d(TAG, "Ad showed fullscreen content.")
             }
         }
+    }
+
+    private fun showSpotlight() {
+        val config = SpotlightConfig()
+        config.headingTvColor = resources.getColor(R.color.colorPrimaryDark)
+        config.lineAndArcColor = resources.getColor(R.color.colorPrimaryDark)
+        config.isPerformClick = false
+        SpotlightSequence.getInstance(this@JerseyEditActivity, config)
+            .addSpotlight(nameTextView, "Name", "Tap to change name ", "1")
+            .addSpotlight(numberTextView, "Number ", "Tap to change number", "2")
+            .addSpotlight(moveFAB, "Move", "Tap to change position of name and number", "3")
+            .addSpotlight(saveBTN, "Save", "Save created jersey", "4")
+            .addSpotlight(shareBTN, "Share", "Share created jersey", "5")
+            .startSequence();
     }
 
     private fun loadInterstitial() {
@@ -448,12 +248,15 @@ class JerseyEditActivity : AppCompatActivity() {
                     Log.d(TAG, "Ad was loaded.")
                     mInterstitialAd = interstitialAd
 
+                    interstitialCallbacks()
+
                     if (mInterstitialAd != null) {
-                        mInterstitialAd?.show(this@JerseyEditActivity)
+                    //    mInterstitialAd?.show(this@JerseyEditActivity)
                     } else {
                         Log.d("TAG", "The interstitial ad wasn't ready yet.")
                     }
                 }
+
             })
 
     }
@@ -685,7 +488,7 @@ class JerseyEditActivity : AppCompatActivity() {
 
         if ((permissions.isNotEmpty()) && (!grantResults.contains(PackageManager.PERMISSION_DENIED))) {
 
-            generateImage(root,isShare)
+            generateImage(root, isShare)
         }
     }
 
