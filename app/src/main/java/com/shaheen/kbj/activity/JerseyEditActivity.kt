@@ -10,7 +10,6 @@ import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
@@ -27,9 +26,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
-import com.getkeepsafe.taptargetview.TapTarget
-import com.getkeepsafe.taptargetview.TapTargetSequence
-import com.getkeepsafe.taptargetview.TapTargetView
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -51,8 +48,10 @@ import java.io.OutputStream
 class JerseyEditActivity : AppCompatActivity() {
     private lateinit var nameTextView: TextView
     private lateinit var numberTextView: TextView
-    private lateinit var name_margin: View
-    private lateinit var number_margin: View
+    private lateinit var name_top_margin: View
+    private lateinit var number_top_margin: View
+    private lateinit var number_left_margin: View
+    private lateinit var name_left_margin: View
     private lateinit var moveFAB: FloatingActionButton
     private lateinit var imageView: ImageView
     private lateinit var permissionHelper: PermissionHelper
@@ -75,6 +74,8 @@ class JerseyEditActivity : AppCompatActivity() {
     private var isShare: Boolean = false
 
     private var PERMISSION_CODE = 100
+    lateinit var mAdView2: AdView
+    lateinit var toolbar: Toolbar
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,16 +84,13 @@ class JerseyEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
-
-
         loadInterstitial()
 
         interstitialCallbacks()
 
 
         // Banner Ad
-        val mAdView2: AdView = findViewById(R.id.adview)
+        mAdView2 = findViewById(R.id.adview)
         val adRequest2: AdRequest = AdRequest.Builder().build()
         mAdView2.loadAd(adRequest2)
 
@@ -107,17 +105,83 @@ class JerseyEditActivity : AppCompatActivity() {
         onClicks()
 
 
+
         item = intent.getParcelableExtra("item")
         imageView.setImageResource(item!!.image_id)
 
-        val lp = name_margin.layoutParams as ConstraintLayout.LayoutParams
-        lp.matchConstraintPercentHeight = item!!.top_percent
-        name_margin.layoutParams = lp
+        setNameAndNumber(item!!.imageNAme)
 
-        val lp2 = number_margin.layoutParams as ConstraintLayout.LayoutParams
-        lp.matchConstraintPercentHeight = item!!.bottom_percent
-        number_margin.layoutParams = lp2
 
+    }
+
+    private fun setNameAndNumber(imageNAme: String) {
+
+
+        val num_typeface: Typeface = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            resources.getFont(R.font.f_num)
+        } else {
+            ResourcesCompat.getFont(this@JerseyEditActivity, R.font.f_num)!!
+        }
+        val name_typeface: Typeface = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            resources.getFont(R.font.name_font)
+        } else {
+            ResourcesCompat.getFont(this@JerseyEditActivity, R.font.name_font)!!
+        }
+
+        when (imageNAme) {
+            "1" -> {
+                nameTextView.setTextColor(resources.getColor(R.color.black))
+                numberTextView.setTextColor(resources.getColor(R.color.black))
+            }
+            "2" -> {
+                nameTextView.setTextColor(resources.getColor(R.color.white))
+                numberTextView.setTextColor(resources.getColor(R.color.blue))
+
+                numberTextView.typeface = num_typeface
+                nameTextView.typeface = name_typeface
+
+                nameTextView.textSize = 20f
+                numberTextView.textSize = 80f
+            }
+            "3" -> {
+                nameTextView.setTextColor(resources.getColor(R.color.blue))
+                numberTextView.setTextColor(resources.getColor(R.color.blue))
+
+                numberTextView.typeface = num_typeface
+                nameTextView.typeface = name_typeface
+
+                nameTextView.textSize = 50f
+                numberTextView.textSize = 160f
+            }
+            "4" -> {
+                nameTextView.setTextColor(resources.getColor(R.color.blue))
+                numberTextView.setTextColor(resources.getColor(R.color.blue))
+
+                numberTextView.typeface = num_typeface
+                nameTextView.typeface = name_typeface
+
+                nameTextView.textSize = 50f
+                numberTextView.textSize = 160f
+            }
+        }
+
+        val lp_name_top = name_top_margin.layoutParams as ConstraintLayout.LayoutParams
+        lp_name_top.matchConstraintPercentHeight = item!!.name_top
+        name_top_margin.layoutParams = lp_name_top
+
+        val lp_name_left = name_left_margin.layoutParams as ConstraintLayout.LayoutParams
+        lp_name_left.matchConstraintPercentWidth = item!!.name_left
+        name_left_margin.layoutParams = lp_name_left
+
+
+        val lp_number_top = number_top_margin.layoutParams as ConstraintLayout.LayoutParams
+        lp_number_top.matchConstraintPercentHeight = item!!.number_top
+        number_top_margin.layoutParams = lp_number_top
+
+
+        val lp_number_left = number_left_margin.layoutParams as ConstraintLayout.LayoutParams
+        lp_number_left.matchConstraintPercentWidth = item!!.number_left
+        number_left_margin.layoutParams = lp_number_left
     }
 
 
@@ -176,14 +240,17 @@ class JerseyEditActivity : AppCompatActivity() {
 
     private fun initViews() {
         root = findViewById(R.id.root)
+        toolbar = findViewById(R.id.toolbar)
         nameTextView = findViewById(R.id.nameTextView)
         numberTextView = findViewById(R.id.numberTextView)
         saveBTN = findViewById(R.id.save)
         shareBTN = findViewById(R.id.share)
         backBTN = findViewById(R.id.back)
         moveFAB = findViewById(R.id.move_fab)
-        name_margin = findViewById(R.id.v1)
-        number_margin = findViewById(R.id.v2)
+        name_top_margin = findViewById(R.id.name_top)
+        name_left_margin = findViewById(R.id.name_left)
+        number_top_margin = findViewById(R.id.number_top)
+        number_left_margin = findViewById(R.id.number_left)
         imageView = findViewById(R.id.imageView)
     }
 
@@ -219,8 +286,10 @@ class JerseyEditActivity : AppCompatActivity() {
 
     private fun showSpotlight() {
         val config = SpotlightConfig()
-        config.headingTvColor = resources.getColor(R.color.colorPrimaryDark)
-        config.lineAndArcColor = resources.getColor(R.color.colorPrimaryDark)
+        config.headingTvColor = resources.getColor(R.color.colorText)
+        config.subHeadingTvColor = resources.getColor(R.color.white)
+        config.lineAndArcColor = resources.getColor(R.color.colorText)
+        config.maskColor = resources.getColor(R.color.colorMask)
         config.isPerformClick = false
         SpotlightSequence.getInstance(this@JerseyEditActivity, config)
             .addSpotlight(nameTextView, "Name", "Tap to change name ", "1")
@@ -242,6 +311,7 @@ class JerseyEditActivity : AppCompatActivity() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     Log.d(TAG, adError?.toString())
                     mInterstitialAd = null
+                    showSpotlight()
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -251,7 +321,7 @@ class JerseyEditActivity : AppCompatActivity() {
                     interstitialCallbacks()
 
                     if (mInterstitialAd != null) {
-                    //    mInterstitialAd?.show(this@JerseyEditActivity)
+                        mInterstitialAd?.show(this@JerseyEditActivity)
                     } else {
                         Log.d("TAG", "The interstitial ad wasn't ready yet.")
                     }
@@ -265,8 +335,20 @@ class JerseyEditActivity : AppCompatActivity() {
     private fun movable() {
         if (movable) {
             moveFAB.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.grey));
-            nameTextView.setBackgroundResource(R.drawable.rectangle)
-            numberTextView.setBackgroundResource(R.drawable.rectangle)
+
+            if (item!!.imageNAme.equals("1")) {
+                nameTextView.setBackgroundResource(R.drawable.rectangle)
+                numberTextView.setBackgroundResource(R.drawable.rectangle)
+            } else if (item!!.imageNAme.equals("2")) {
+                nameTextView.setBackgroundResource(R.drawable.rectangle_white)
+                numberTextView.setBackgroundResource(R.drawable.rectangle_white)
+            } else if (item!!.imageNAme.equals("3")) {
+                nameTextView.setBackgroundResource(R.drawable.rectangle)
+                numberTextView.setBackgroundResource(R.drawable.rectangle)
+            } else if (item!!.imageNAme.equals("4")) {
+                nameTextView.setBackgroundResource(R.drawable.rectangle)
+                numberTextView.setBackgroundResource(R.drawable.rectangle)
+            }
 
             nameTextView.setOnTouchListener(OnTouchListener { v, event ->
                 when (event.action) {
@@ -320,10 +402,26 @@ class JerseyEditActivity : AppCompatActivity() {
     }
 
     private fun generateImage(root: ConstraintLayout, share: Boolean) {
+
+        makeOthersInvisible()
+
         val bitmap = getScreenShotFromView(root)
         if (bitmap != null) {
             saveMediaToStorage(bitmap, share)
         }
+        makeOthersvisible()
+    }
+
+    private fun makeOthersInvisible() {
+        moveFAB.visibility = View.GONE
+        mAdView2.visibility = View.GONE
+        toolbar.visibility = View.GONE
+    }
+
+    private fun makeOthersvisible() {
+        moveFAB.visibility = View.VISIBLE
+        mAdView2.visibility = View.VISIBLE
+        toolbar.visibility = View.VISIBLE
     }
 
 
@@ -343,7 +441,7 @@ class JerseyEditActivity : AppCompatActivity() {
             if (name.text.isEmpty()) {
                 nameTextView.text = "NAME"
             } else {
-                nameTextView.text = name.text
+                nameTextView.text = name.text.toString()
             }
             val inputMethodManager =
                 getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager

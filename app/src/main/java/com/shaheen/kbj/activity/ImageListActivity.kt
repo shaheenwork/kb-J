@@ -24,6 +24,7 @@ import java.util.*
 
 class ImageListActivity : AppCompatActivity() {
     private lateinit var options: ImageView
+
     @SuppressLint("UseSupportActionBar")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,50 +56,52 @@ class ImageListActivity : AppCompatActivity() {
     }
 
     private fun dummyData(arrayList: ArrayList<ImageModel>) {
+
         arrayList.add(
             ImageModel(
+                "1",
+                .465f,
+                0.275f,
+                0.52f,
+                0.33f,
                 R.drawable.im1,
-                "im1",
-                .5f,
-                0.5f,
-                0f,
-                0f,
-                0
+                R.drawable.dsp2
             )
         )
         arrayList.add(
             ImageModel(
-                R.drawable.s,
-                "ladder",
-                0.4f,
-                0f,
-                0f,
-                0f,
-                0
+                "2",
+                .45f,
+                0.3f,
+                0.16f,
+                0.33f,
+                R.drawable.im2,
+                R.drawable.im2
             )
         )
         arrayList.add(
             ImageModel(
-                R.drawable.s,
-                "ladder",
-                0.4f,
-                0f,
-                0f,
-                0f,
-                0
+                "3",
+                .45f,
+                0.3f,
+                0.16f,
+                0.33f,
+                R.drawable.im3,
+                R.drawable.im3
             )
         )
         arrayList.add(
             ImageModel(
-                R.drawable.s,
-                "ladder",
-                0.4f,
-                0f,
-                0f,
-                0f,
-                0
+                "4",
+                .45f,
+                0.3f,
+                0.16f,
+                0.33f,
+                R.drawable.im4,
+                R.drawable.im4
             )
         )
+
     }
 
     private fun showPopup() {

@@ -5,27 +5,29 @@ import android.os.Parcelable;
 
 public class ImageModel implements Parcelable {
     String imageNAme;
-    float top_percent, bottom_percent, left_percent, right_percent;
-    int image_id,activity;
+    float name_top, name_left, number_top, number_left;
+    int image_id,display_image_id;
 
-    public ImageModel(int image_id,String imageNAme, float top_percent, float bottom_percent, float left_percent, float right_percent, int activity) {
+
+
+    public ImageModel(String imageNAme, float name_top, float name_left, float number_top, float number_left, int image_id, int display_image_id) {
         this.imageNAme = imageNAme;
+        this.name_top = name_top;
+        this.name_left = name_left;
+        this.number_top = number_top;
+        this.number_left = number_left;
         this.image_id = image_id;
-        this.top_percent = top_percent;
-        this.bottom_percent = bottom_percent;
-        this.left_percent = left_percent;
-        this.right_percent = right_percent;
-        this.activity = activity;
+        this.display_image_id = display_image_id;
     }
 
     protected ImageModel(Parcel in) {
         imageNAme = in.readString();
-        top_percent = in.readFloat();
-        bottom_percent = in.readFloat();
-        left_percent = in.readFloat();
-        right_percent = in.readFloat();
+        name_top = in.readFloat();
+        name_left = in.readFloat();
+        number_top = in.readFloat();
+        number_left = in.readFloat();
         image_id = in.readInt();
-        activity = in.readInt();
+        display_image_id = in.readInt();
     }
 
     public static final Creator<ImageModel> CREATOR = new Creator<ImageModel>() {
@@ -40,20 +42,12 @@ public class ImageModel implements Parcelable {
         }
     };
 
-    public int getActivity() {
-        return activity;
+    public int getDisplay_image_id() {
+        return display_image_id;
     }
 
-    public void setActivity(int activity) {
-        this.activity = activity;
-    }
-
-    public int getImage_id() {
-        return image_id;
-    }
-
-    public void setImage_id(int image_id) {
-        this.image_id = image_id;
+    public void setDisplay_image_id(int display_image_id) {
+        this.display_image_id = display_image_id;
     }
 
     public String getImageNAme() {
@@ -64,36 +58,44 @@ public class ImageModel implements Parcelable {
         this.imageNAme = imageNAme;
     }
 
-    public float getTop_percent() {
-        return top_percent;
+    public float getName_top() {
+        return name_top;
     }
 
-    public void setTop_percent(float top_percent) {
-        this.top_percent = top_percent;
+    public void setName_top(float name_top) {
+        this.name_top = name_top;
     }
 
-    public float getBottom_percent() {
-        return bottom_percent;
+    public float getName_left() {
+        return name_left;
     }
 
-    public void setBottom_percent(float bottom_percent) {
-        this.bottom_percent = bottom_percent;
+    public void setName_left(float name_left) {
+        this.name_left = name_left;
     }
 
-    public float getLeft_percent() {
-        return left_percent;
+    public float getNumber_top() {
+        return number_top;
     }
 
-    public void setLeft_percent(float left_percent) {
-        this.left_percent = left_percent;
+    public void setNumber_top(float number_top) {
+        this.number_top = number_top;
     }
 
-    public float getRight_percent() {
-        return right_percent;
+    public float getNumber_left() {
+        return number_left;
     }
 
-    public void setRight_percent(float right_percent) {
-        this.right_percent = right_percent;
+    public void setNumber_left(float number_left) {
+        this.number_left = number_left;
+    }
+
+    public int getImage_id() {
+        return image_id;
+    }
+
+    public void setImage_id(int image_id) {
+        this.image_id = image_id;
     }
 
     @Override
@@ -104,11 +106,11 @@ public class ImageModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(imageNAme);
-        parcel.writeFloat(top_percent);
-        parcel.writeFloat(bottom_percent);
-        parcel.writeFloat(left_percent);
-        parcel.writeFloat(right_percent);
+        parcel.writeFloat(name_top);
+        parcel.writeFloat(name_left);
+        parcel.writeFloat(number_top);
+        parcel.writeFloat(number_left);
         parcel.writeInt(image_id);
-        parcel.writeInt(activity);
+        parcel.writeInt(display_image_id);
     }
 }

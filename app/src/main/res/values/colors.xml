@@ -7,15 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#283593</color>
     <color name="grey">#707070</color>
-    <color name="fab">#009688</color>
+    <color name="fab">#F9A825</color>
 
 
 
 
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#F57F17</color>
+    <color name="colorPrimaryDark">#F9A825</color>
+    <color name="colorMask">#B4F9A825</color>
+    <color name="colorText">#283593</color>
     <color name="colorAccent">#FF4081</color>
 
 
