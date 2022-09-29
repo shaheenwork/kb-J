@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/im1"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -112,10 +112,9 @@
 
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NAME"
-        android:textAlignment="center"
         android:paddingLeft="5dp"
         android:paddingEnd="5dp"
         android:textStyle="bold"
@@ -130,9 +129,8 @@
     <TextView
         android:elevation="1dp"
         android:id="@+id/numberTextView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:text="12"
         android:paddingBottom="1dp"
         android:paddingLeft="5dp"

@@ -135,13 +135,13 @@ class JerseyEditActivity : AppCompatActivity() {
             }
             "2" -> {
                 nameTextView.setTextColor(resources.getColor(R.color.white))
-                numberTextView.setTextColor(resources.getColor(R.color.blue))
+                numberTextView.setTextColor(resources.getColor(R.color.white))
 
                 numberTextView.typeface = num_typeface
                 nameTextView.typeface = name_typeface
 
-                nameTextView.textSize = 20f
-                numberTextView.textSize = 80f
+                nameTextView.textSize = 50f
+                numberTextView.textSize = 160f
             }
             "3" -> {
                 nameTextView.setTextColor(resources.getColor(R.color.blue))
