@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="ActionBar Title"/>
+                android:text="@string/app_name"/>
 
             <ImageView
                 android:id="@+id/options"
@@ -66,7 +66,7 @@
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        ads:adUnitId="ca-app-pub-2416033626083993/7904946848">
     </com.google.android.gms.ads.AdView>
 
 

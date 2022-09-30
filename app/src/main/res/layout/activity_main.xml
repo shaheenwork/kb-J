@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/root"
+
     android:layout_height="match_parent"
     tools:context=".activity.JerseyEditActivity">
 
@@ -34,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="ActionBar Title"/>
+                android:text="@string/app_name"/>
 
             <ImageView
                 android:id="@+id/share"
@@ -69,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/im1"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -115,15 +116,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="NAME"
+        android:maxLength="10"
         android:paddingLeft="5dp"
         android:paddingEnd="5dp"
+        android:gravity="center_horizontal"
         android:textStyle="bold"
         android:elevation="2dp"
         android:paddingTop="1dp"
         android:fontFamily="@font/f2"
         android:textSize="30sp"
         android:textColor="#292727"
-        app:layout_constraintStart_toEndOf="@id/name_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/name_top" />
 
     <TextView
@@ -132,6 +136,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12"
+        android:maxLength="2"
+        android:gravity="center_horizontal"
         android:paddingBottom="1dp"
         android:paddingLeft="5dp"
         android:paddingEnd="5dp"
@@ -139,7 +145,8 @@
         android:textColor="#292727"
         android:fontFamily="@font/f2"
         android:textSize="70sp"
-        app:layout_constraintStart_toEndOf="@id/number_left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/number_top" />
 
 
@@ -163,7 +170,7 @@
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:adUnitId="ca-app-pub-2416033626083993/7904946848"
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintBottom_toBottomOf="parent" />
